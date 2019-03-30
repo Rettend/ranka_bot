@@ -18,7 +18,7 @@ async def on_ready():
     print(bot.user.id)
     print('------')
     game_list = ["Free For All", "Ranked 1v1", "Ranked 2v2", "BOTW", "Custom Games"]
-    await bot.change_presence(game=discord.Game(name="Brawlhalla, " + random.choice(game_list))
+    await bot.change_presence(game=discord.Game(name=random.choice(game_list))
 
 #------------------MOD-----------------------
 @bot.command(pass_context=True)
