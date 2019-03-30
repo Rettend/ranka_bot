@@ -10,6 +10,8 @@ bot.remove_command("help")
 underworking = ":warning: **Nem, ez még nincs kész...** :warning:"
 timer = time.strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
 
+os.chdir(r'ranka_bot')
+
 #-----------------SETUP----------------------
 @bot.event
 async def on_ready():
@@ -27,14 +29,16 @@ async def join(ctx, member : discord.Member, elo : int):
     if elo is None:
         await bot.reply("**Használat: `-join {member, alapból te magad} {elo}` köcce.**")
     else:
+        with open('data.json', 'r') as f:
+            data = json.load(f)
+        
         x = {
-            "name": ctx.message.author.name,
-            "elo": elo,
+            "elo": elo
         }
-
-        y = json.dumps(x)
-        await bot.say(y)
-
+        
+        with open('data.json', 'w') as f:
+            y = json.dump(data, f)
+            await bot.say(y)
 
 @bot.command(pass_context=True)
 async def typing(ctx):
