@@ -1,4 +1,4 @@
-import discord, json, asyncio, time, random, aiohttp, re, , , os, sys, math, asyncpg
+import discord, json, asyncio, time, random, aiohttp, re, os, sys, math, asyncpg
 from time import gmtime
 from discord.ext import commands
 
