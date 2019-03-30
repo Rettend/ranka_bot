@@ -17,7 +17,164 @@ async def on_ready():
     print(bot.user.name)
     print(bot.user.id)
     print('------')
-    await bot.change_presence(game=discord.Game(name="Brawlhalla"))
+    await bot.change_presence(game=discord.Game(name="Brawlhalla")))
+
+#----------------COMMANDS--------------------
+@bot.command(pass_context=True)
+async def join(ctx, member : discord.Member, elo : int):
+    if member is None:
+        member = ctx.message.author
+    if elo is None:
+        await bot.reply("**Használat: `-join {member, alapból te magad} {elo}` köcce.**")
+    else:
+        x = {
+            "name": ctx.message.author.name,
+            "elo": elo,
+        }
+
+        y = json.dumps(x)
+        await bot.say(y)
+
+
+@bot.command(pass_context=True)
+async def typing(ctx):
+    await bot.say("**Typing effect bekapcs!** :ok_hand:")
+    await bot.send_typing(ctx.message.channel)
+
+@bot.command(pass_context=True)
+async def slap(ctx, member : discord.Member=None, *, Reason=None):
+    if member is None:
+        await bot.reply("**Használat: `-slap {member} {Reason}` köcce.**")
+    else:
+        await bot.say(f"**{ctx.message.author} megpofozta {member.mention}-t, mert __{Reason}__**")
+
+@bot.command(pass_context=True)
+async def ping(ctx):
+    before = time.monotonic()
+    embed = discord.Embed(description=":ping_pong: **...**", colour=0x2ecc71)
+    msg = await bot.say(embed=embed)
+    ping = (time.monotonic() - before) * 1000
+    pinges = int(ping)
+    if 999 > pinges > 400:
+        mesg = "Az sok!"
+    elif pinges > 1000:
+        mesg = "Rohaddddttt lasssúuuúuúúú!!4!44!"
+    elif 399 > pinges > 141:
+        mesg = "Ahhh, nem jó!"
+    elif pinges < 140:
+        mesg = "Tükéletes ;)"
+    em = discord.Embed(title=None, description=f":ping_pong: Úgy kb. `{pinges}` MS\n{mesg}", colour=0x2ecc71)
+    em.set_author(name=ctx.message.author, icon_url=ctx.message.author.avatar_url)
+    timer = time.strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
+    em.set_footer(text=timer)
+    await bot.edit_message(msg, embed=em)
+
+@bot.command(pass_context=True)
+async def roll(ctx, x : int=None, y : int=None):
+    if x is None:
+        await bot.reply("**Használat: `-roll {number} {number}` köcce.**")
+    elif y is None:
+        await bot.reply("**Használat: `-roll {number} {number}` ty.**")
+    else:
+        msg = random.randint(x, y)
+        text = await bot.send_message(ctx.message.channel, "**Hmmm...**")
+        await asyncio.sleep(3)
+        await bot.edit_message(text, f"**Oh, a választásom: {msg}**")
+
+@bot.command(pass_context=True)
+async def sub(ctx, x : int=None, y : int=None):
+    if x is None:
+        await bot.reply("**Használat: `-sub {number} {number}` köcce.**")
+    elif y is None:
+        await bot.reply("**Használat: `-sub {number} {number}` köcce.**")
+    else:
+        msg = x - y
+        text = await bot.send_message(ctx.message.channel, "**Hmmm...**")
+        await asyncio.sleep(3)
+        await bot.edit_message(text, f"**Oh, az eredmény: {msg}**")
+    
+@bot.command(pass_context=True)
+async def mul(ctx, x : int=None, y : int=None):
+    if x is None:
+        await bot.reply("**Használat: `-mul {number} {number}` köcce.**")
+    elif y is None:
+        await bot.reply("**Használat: `-mul {number} {number}` köcce.**")
+    else:
+        msg = x * y
+        text = await bot.send_message(ctx.message.channel, "**Hmmm...**")
+        await asyncio.sleep(3)
+        await bot.edit_message(text, f"**Oh, az eredmény: {msg}**")
+    
+@bot.command(pass_context=True)
+async def div(ctx, x : int=None, y : int=None):
+    if x is None:
+        await bot.reply("**Használat: `-div {number} {number}` köcce.**")
+    elif y is None:
+        await bot.reply("**Használat: `-div {number} {number}` köcce.**")
+    else:
+        msg = x / y
+        text = await bot.send_message(ctx.message.channel, "**Hmmm...**")
+        await asyncio.sleep(3)
+        await bot.edit_message(text, f"**Oh, az eredmény: {msg}**")
+    
+@bot.command(pass_context=True)
+async def exp(ctx, x : int=None, y : int=None):
+    if x is None:
+        await bot.reply("**Használat: `-exp {number} {number}` köcce.**")
+    elif y is None:
+        await bot.reply("**Használat: `-exp {number} {number}` köcce.**")
+    else:
+        msg = x ** y
+        text = await bot.send_message(ctx.message.channel, "**Hmmm...**")
+        await asyncio.sleep(3)
+        await bot.edit_message(text, f"**Oh, az eredmény: {msg}**")
+    
+@bot.command(pass_context=True)
+async def add(ctx, x : int=None, y : int=None):
+    if x is None:
+        await bot.reply("**Használat: `-add {number} {number}` köcce.**")
+    elif y is None:
+        await bot.reply("**Használat: `-add {number} {number}` köcce.**")
+    else:
+        msg = x + y
+        text = await bot.send_message(ctx.message.channel, "**Hmmm...**")
+        await asyncio.sleep(3)
+        await bot.edit_message(text, f"**Oh, az eredmény: {msg}**")
+    
+@bot.command()
+async def game(*, play=None):
+    if play is None:
+        await bot.reply("**Használat: `-game {valami}` köcce.**")
+    else:
+        await bot.change_presence(game=discord.Game(name=play))
+        em = discord.Embed(title="Game Status", description=f"Game status átállítva: __{play}__!", colour=0x2ecc71)
+        await bot.say(embed=em)
+
+@bot.command(pass_context=True)
+async def nick(ctx, *, name=None):
+    if name is None:
+        await bot.reply("**Használat: `-name {Something to set as your name}` köcce.**")
+    else:
+        await bot.change_nickname(ctx.message.author, name)
+        em = discord.Embed(title="Nickname", description=f"{ctx.message.author} beceneve átállítva: __{name}__!", colour=0x2ecc71)
+        await bot.say(embed=em)
+
+@bot.command(pass_context=True)
+async def say(ctx, *, smth=None):
+    if smth is None:
+        await bot.reply("**Használat: `-say {valami}` köcce.**")
+    else:
+        await bot.say(f"**{smth}**")
+
+@bot.command(pass_context=True)
+async def poll(ctx, option=None, *, text=None):
+    if text is None:
+        await bot.reply("**Használat: `-poll {valami}` köcce.**")
+    else:
+        em = discord.Embed(title="Poll", description=text, colour=0x2ecc71)
+        msg = await bot.send_message(ctx.message.channel, embed=em)
+        await bot.add_reaction(msg, "👍")
+        await bot.add_reaction(msg, "👎")
 
 #------------------MOD-----------------------
 @bot.command(pass_context=True)
@@ -220,147 +377,6 @@ async def clear(ctx, number : int=None):
         await bot.send_message(LogRoom, embed=em)
         await asyncio.sleep(4)
         await bot.delete_message(msg)
-
-#----------------COMMANDS--------------------
-@bot.command(pass_context=True)
-async def typing(ctx):
-    await bot.say("**Typing effect bekapcs!** :ok_hand:")
-    await bot.send_typing(ctx.message.channel)
-
-@bot.command(pass_context=True)
-async def slap(ctx, member : discord.Member=None, *, Reason=None):
-    if member is None:
-        await bot.reply("**Használat: `-slap {member} {Reason}` köcce.**")
-    else:
-        await bot.say(f"**{ctx.message.author} megpofozta {member.mention}-t, mert __{Reason}__**")
-
-@bot.command(pass_context=True)
-async def ping(ctx):
-    before = time.monotonic()
-    embed = discord.Embed(description=":ping_pong: **...**", colour=0x2ecc71)
-    msg = await bot.say(embed=embed)
-    ping = (time.monotonic() - before) * 1000
-    pinges = int(ping)
-    if 999 > pinges > 400:
-        mesg = "Az sok!"
-    elif pinges > 1000:
-        mesg = "Rohaddddttt lasssúuuúuúúú!!4!44!"
-    elif 399 > pinges > 141:
-        mesg = "Ahhh, nem jó!"
-    elif pinges < 140:
-        mesg = "Tükéletes ;)"
-    em = discord.Embed(title=None, description=f":ping_pong: Úgy kb. `{pinges}` MS\n{mesg}", colour=0x2ecc71)
-    em.set_author(name=ctx.message.author, icon_url=ctx.message.author.avatar_url)
-    timer = time.strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
-    em.set_footer(text=timer)
-    await bot.edit_message(msg, embed=em)
-
-@bot.command(pass_context=True)
-async def roll(ctx, x : int=None, y : int=None):
-    if x is None:
-        await bot.reply("**Használat: `-roll {number} {number}` köcce.**")
-    elif y is None:
-        await bot.reply("**Használat: `-roll {number} {number}` ty.**")
-    else:
-        msg = random.randint(x, y)
-        text = await bot.send_message(ctx.message.channel, "**Hmmm...**")
-        await asyncio.sleep(3)
-        await bot.edit_message(text, f"**Oh, a választásom: {msg}**")
-
-@bot.command(pass_context=True)
-async def sub(ctx, x : int=None, y : int=None):
-    if x is None:
-        await bot.reply("**Használat: `-sub {number} {number}` köcce.**")
-    elif y is None:
-        await bot.reply("**Használat: `-sub {number} {number}` köcce.**")
-    else:
-        msg = x - y
-        text = await bot.send_message(ctx.message.channel, "**Hmmm...**")
-        await asyncio.sleep(3)
-        await bot.edit_message(text, f"**Oh, az eredmény: {msg}**")
-    
-@bot.command(pass_context=True)
-async def mul(ctx, x : int=None, y : int=None):
-    if x is None:
-        await bot.reply("**Használat: `-mul {number} {number}` köcce.**")
-    elif y is None:
-        await bot.reply("**Használat: `-mul {number} {number}` köcce.**")
-    else:
-        msg = x * y
-        text = await bot.send_message(ctx.message.channel, "**Hmmm...**")
-        await asyncio.sleep(3)
-        await bot.edit_message(text, f"**Oh, az eredmény: {msg}**")
-    
-@bot.command(pass_context=True)
-async def div(ctx, x : int=None, y : int=None):
-    if x is None:
-        await bot.reply("**Használat: `-div {number} {number}` köcce.**")
-    elif y is None:
-        await bot.reply("**Használat: `-div {number} {number}` köcce.**")
-    else:
-        msg = x / y
-        text = await bot.send_message(ctx.message.channel, "**Hmmm...**")
-        await asyncio.sleep(3)
-        await bot.edit_message(text, f"**Oh, az eredmény: {msg}**")
-    
-@bot.command(pass_context=True)
-async def exp(ctx, x : int=None, y : int=None):
-    if x is None:
-        await bot.reply("**Használat: `-exp {number} {number}` köcce.**")
-    elif y is None:
-        await bot.reply("**Használat: `-exp {number} {number}` köcce.**")
-    else:
-        msg = x ** y
-        text = await bot.send_message(ctx.message.channel, "**Hmmm...**")
-        await asyncio.sleep(3)
-        await bot.edit_message(text, f"**Oh, az eredmény: {msg}**")
-    
-@bot.command(pass_context=True)
-async def add(ctx, x : int=None, y : int=None):
-    if x is None:
-        await bot.reply("**Használat: `-add {number} {number}` köcce.**")
-    elif y is None:
-        await bot.reply("**Használat: `-add {number} {number}` köcce.**")
-    else:
-        msg = x + y
-        text = await bot.send_message(ctx.message.channel, "**Hmmm...**")
-        await asyncio.sleep(3)
-        await bot.edit_message(text, f"**Oh, az eredmény: {msg}**")
-    
-@bot.command()
-async def game(*, play=None):
-    if play is None:
-        await bot.reply("**Használat: `-game {valami}` köcce.**")
-    else:
-        await bot.change_presence(game=discord.Game(name=play))
-        em = discord.Embed(title="Game Status", description=f"Game status átállítva: __{play}__!", colour=0x2ecc71)
-        await bot.say(embed=em)
-
-@bot.command(pass_context=True)
-async def nick(ctx, *, name=None):
-    if name is None:
-        await bot.reply("**Használat: `-name {Something to set as your name}` köcce.**")
-    else:
-        await bot.change_nickname(ctx.message.author, name)
-        em = discord.Embed(title="Nickname", description=f"{ctx.message.author} beceneve átállítva: __{name}__!", colour=0x2ecc71)
-        await bot.say(embed=em)
-
-@bot.command(pass_context=True)
-async def say(ctx, *, smth=None):
-    if smth is None:
-        await bot.reply("**Használat: `-say {valami}` köcce.**")
-    else:
-        await bot.say(f"**{smth}**")
-
-@bot.command(pass_context=True)
-async def poll(ctx, option=None, *, text=None):
-    if text is None:
-        await bot.reply("**Használat: `-poll {valami}` köcce.**")
-    else:
-        em = discord.Embed(title="Poll", description=text, colour=0x2ecc71)
-        msg = await bot.send_message(ctx.message.channel, embed=em)
-        await bot.add_reaction(msg, "👍")
-        await bot.add_reaction(msg, "👎")
 
 #-----------------------------------------------
 @bot.event
