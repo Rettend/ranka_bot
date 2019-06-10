@@ -14,13 +14,13 @@ async def on_ready():
     print(bot.user.name)
     print(bot.user.id)
     print('------')
+    await client.change_presence(status=discord.Status.dnd, activity=discord.Game("Brawlhalla"))
 
 #-----------------COMMANDS-------------------
 
 @bot.command()
 async def add(ctx, left: int, right: int):
     await ctx.send(left + right)
-
 
 
 bot.run('DISCORD_TOKEN')
