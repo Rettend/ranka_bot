@@ -1,26 +1,11 @@
-import discord, json, asyncio, time, random, aiohttp, re, os, sys, math, asyncpg
-from time import gmtime
-from discord.ext import commands
+import discord, json, math, os, re
+from discord.ext.commands import Bot
 
-#-------------------DATA---------------------
-bot = commands.Bot(command_prefix='-', description=None)
-bot.remove_command("help")
-underworking = ":warning: **Nem, ez még nincs kész...** :warning:"
-timer = time.strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
+my_bot = Bot(command_prefix="!")
 
-@bot.event
-async def on_ready():
-    print('Logged in as')
-    print(bot.user.name)
-    print(bot.user.id)
-    print('------')
-    await client.change_presence(status=discord.Status.dnd, activity=discord.Game("Brawlhalla"))
+@my_bot.event
+async def on_message(message):
+    if message.content.startswith('!meme'):
+        await message.channel.send('Meme')
 
-#-----------------COMMANDS-------------------
-
-@bot.command()
-async def add(ctx, left: int, right: int):
-    await ctx.send(left + right)
-
-
-bot.run('DISCORD_TOKEN')
+my_bot.run('DISCORD_TOKEN')
